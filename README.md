@@ -3,7 +3,7 @@
 记录开发的项目聚合 index 目录。项目信息以 [registry](registry/README.md) 方式记录（不使用 git submodule），数据源为 [registry/apps.json](registry/apps.json)。
 
 本 README 是 registry 的人类可读视图，由 `registry/apps.json` 同步而来；改动项目信息请改数据源，再跑
-`node scripts/validate-registry.mjs` 校验字段与本地路径。
+`node scripts/registry/validate-registry.mjs` 校验字段与本地路径。
 
 ## 维护中的项目
 
@@ -49,11 +49,15 @@
 
 - `registry/` — collections 注册信息（apps.json + schema.json）
 - `docs/` — 设计与调研文档
-- `scripts/validate-registry.mjs` — 校验 registry 字段与本地路径
-- `scripts/daily-checkin.ts` — MiniMax Code（mcode）每日积分签到
-- `scripts/mcode-sign-salt.ts` — mcode 签名盐交互式配置（探测客户端提取 / 写入环境变量）
-- `scripts/workbuddy-checkin.ts` — WorkBuddy（腾讯 Buddy 加油站）每日积分签到
-- `scripts/workbuddy-cdp.ts` — WorkBuddy 客户端 CDP 调试工具
+- `scripts/registry/` — registry 数据源与 profile 渲染
+  - `validate-registry.mjs` — 校验 registry 字段与本地路径
+  - `check-layout-doc.mjs` — 校验 registry/README.md 的布局树与 apps.json 一致
+  - `render-profile.mjs` — 从 apps.json 渲染 profile 的 innate_apps 段落
+- `scripts/checkin/` — 每日积分签到
+  - `daily-checkin.ts` — MiniMax Code（mcode）每日积分签到
+  - `mcode-sign-salt.ts` — mcode 签名盐交互式配置（探测客户端提取 / 写入环境变量）
+  - `workbuddy-checkin.ts` — WorkBuddy（腾讯 Buddy 加油站）每日积分签到
+  - `workbuddy-cdp.ts` — WorkBuddy 客户端 CDP 调试工具
 - 各 app 目录为独立 git 仓库（非 submodule）
 
 ## 每日签到自动化
@@ -62,8 +66,8 @@
 
 | 目标 | 脚本 | 计划任务 | 时间 |
 | --- | --- | --- | --- |
-| MiniMax Code（mcode）积分 | `scripts/daily-checkin.ts` | `MiniMax Code Daily Checkin` | 每天 09:00 |
-| WorkBuddy（Buddy加油站）积分 | `scripts/workbuddy-checkin.ts` | `WorkBuddy Daily Checkin` | 每天 09:05 |
+| MiniMax Code（mcode）积分 | `scripts/checkin/daily-checkin.ts` | `MiniMax Code Daily Checkin` | 每天 09:00 |
+| WorkBuddy（Buddy加油站）积分 | `scripts/checkin/workbuddy-checkin.ts` | `WorkBuddy Daily Checkin` | 每天 09:05 |
 
 两者均 Bun 优先（Node 24+ 也能直接跑同一份 `.ts`）、当天幂等、退出码恒为 0，
 计划任务开启 `StartWhenAvailable` 以便错过后补跑。

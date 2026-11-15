@@ -6,8 +6,8 @@
 
 | 目标 | 脚本 | 计划任务 | 时间 | 状态文件 |
 | --- | --- | --- | --- | --- |
-| MiniMax Code（mcode）积分 | `scripts/daily-checkin.ts` | `MiniMax Code Daily Checkin` | 每天 09:00 | `~/.minimax/v2/hook-data/user/daily-checkin-state.json` |
-| WorkBuddy（Buddy加油站）积分 | `scripts/workbuddy-checkin.ts` | `WorkBuddy Daily Checkin` | 每天 09:05 | `~/.workbuddy/checkin/daily-checkin-state.json` |
+| MiniMax Code（mcode）积分 | `scripts/checkin/daily-checkin.ts` | `MiniMax Code Daily Checkin` | 每天 09:00 | `~/.minimax/v2/hook-data/user/daily-checkin-state.json` |
+| WorkBuddy（Buddy加油站）积分 | `scripts/checkin/workbuddy-checkin.ts` | `WorkBuddy Daily Checkin` | 每天 09:05 | `~/.workbuddy/checkin/daily-checkin-state.json` |
 
 两者都满足：
 
@@ -20,11 +20,11 @@
 
 ```powershell
 # mcode
-bun run scripts/daily-checkin.ts
+bun run scripts/checkin/daily-checkin.ts
 
 # WorkBuddy
-bun run scripts/workbuddy-checkin.ts
-bun run scripts/workbuddy-checkin.ts --status   # 只查状态
+bun run scripts/checkin/workbuddy-checkin.ts
+bun run scripts/checkin/workbuddy-checkin.ts --status   # 只查状态
 ```
 
 计划任务入口是 `scripts/run-mcode-checkin.cmd` / `scripts/run-workbuddy-checkin.cmd`
@@ -56,14 +56,14 @@ bun run scripts/workbuddy-checkin.ts --status   # 只查状态
 
 因此可以从本机已安装的客户端里稳定提取，**不需要手抄、也不必把常量写死在公开仓库里**。
 
-取值优先级（实现见 `scripts/mcode-sign-salt-lib.ts`）：
+取值优先级（实现见 `scripts/checkin/mcode-sign-salt-lib.ts`）：
 
 1. **环境变量 `MCODE_SIGN_SALT`** —— 显式指定，最高优先级；
 2. **本机 mcode 客户端自动提取** —— 扫描客户端包里的 js，
    用正则从 `x-signature` 模板中取 `${...}` 之后的固定前缀（去掉尾部插值）；
    多个候选时取出现次数最多的那个；
 3. **都没有 → 直接报错** —— 仓库里**不内置任何盐值**，
-   错误信息会引导你运行 `bun run scripts/mcode-sign-salt.ts`。
+   错误信息会引导你运行 `bun run scripts/checkin/mcode-sign-salt.ts`。
 
 客户端探测目录（`MCODE_CLIENT_DIR` 可覆盖）：
 
@@ -73,16 +73,16 @@ bun run scripts/workbuddy-checkin.ts --status   # 只查状态
 
 ### 交互式配置
 
-`scripts/mcode-sign-salt.ts` 提供交互式入口，会依次尝试环境变量与客户端提取，
+`scripts/checkin/mcode-sign-salt.ts` 提供交互式入口，会依次尝试环境变量与客户端提取，
 并询问是否写入用户级环境变量（写入后计划任务等新进程可直接读取）：
 
 ```powershell
-bun run scripts/mcode-sign-salt.ts            # 交互式（推荐）
-bun run scripts/mcode-sign-salt.ts show       # 只看当前来源与掩码后的盐
-bun run scripts/mcode-sign-salt.ts extract    # 从客户端提取并打印明文
-bun run scripts/mcode-sign-salt.ts set <salt> # 写入用户级环境变量 MCODE_SIGN_SALT
-bun run scripts/mcode-sign-salt.ts clear      # 清除用户级环境变量
-bun run scripts/mcode-sign-salt.ts check      # 自检
+bun run scripts/checkin/mcode-sign-salt.ts            # 交互式（推荐）
+bun run scripts/checkin/mcode-sign-salt.ts show       # 只看当前来源与掩码后的盐
+bun run scripts/checkin/mcode-sign-salt.ts extract    # 从客户端提取并打印明文
+bun run scripts/checkin/mcode-sign-salt.ts set <salt> # 写入用户级环境变量 MCODE_SIGN_SALT
+bun run scripts/checkin/mcode-sign-salt.ts clear      # 清除用户级环境变量
+bun run scripts/checkin/mcode-sign-salt.ts check      # 自检
 ```
 
 写入用户级环境变量用 `reg add ... /t REG_SZ`（Windows 需新开进程/计划任务才会生效），
@@ -166,7 +166,7 @@ const { region, path: pathname, query, method = 'GET', body, style, token } = op
           {
             "type": "command",
             "name": "MiniMax 每日签到",
-            "command": "bun run \"$HOME/innate-workspace/refine-factory/scripts/daily-checkin.ts\"",
+            "command": "bun run \"$HOME/innate-workspace/refine-factory/scripts/checkin/daily-checkin.ts\"",
             "commandWindows": "%USERPROFILE%\\.bun\\bin\\bun.exe run %USERPROFILE%\\innate-workspace\\refine-factory\\scripts\\daily-checkin.ts",
             "timeout": 10
           }

@@ -19,7 +19,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const defaultRoot = path.resolve(here, "..");
+// 仓根 = scripts/registry/ 的上两级（脚本自身在 scripts/registry/ 下）。
+const defaultRoot = path.resolve(here, "..", "..");
 
 /** 单条 description 在表格里的最大长度（含省略号）。 */
 export const MAX_DESC = 110;

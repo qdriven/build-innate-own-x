@@ -1,8 +1,8 @@
 /**
  * WorkBuddy CDP 调试工具：在 WorkBuddy 主窗口里执行一段表达式并打印结果。
  *
- *   bun run scripts/workbuddy-cdp.ts --list
- *   bun run scripts/workbuddy-cdp.ts 'JSON.stringify(Object.keys(window.workbuddyDesktop))'
+ *   bun run scripts/checkin/workbuddy-cdp.ts --list
+ *   bun run scripts/checkin/workbuddy-cdp.ts 'JSON.stringify(Object.keys(window.workbuddyDesktop))'
  *
  * 需要客户端以 --remote-debugging-port 启动（签到脚本会自动这么做，并把端口记在
  * ~/.workbuddy/checkin/cdp-instance.json；本工具会自动读取该端口）。

@@ -2,7 +2,7 @@
 
 > 目标：每天自动领取 WorkBuddy（腾讯 Buddy 加油站）的每日积分奖励。
 > 适用：Windows + 官方客户端 WorkBuddy 5.9.3（`C:\Program Files\WorkBuddy\WorkBuddy.exe`）。
-> 运行时：Bun（`bun run scripts/workbuddy-checkin.ts`），Node 24+ 亦可直接跑同一份 `.ts`。
+> 运行时：Bun（`bun run scripts/checkin/workbuddy-checkin.ts`），Node 24+ 亦可直接跑同一份 `.ts`。
 > 触发：Windows 计划任务「WorkBuddy Daily Checkin」（每天 09:05），不再依赖 mcode hook。
 
 ## 一句话结论
@@ -50,7 +50,7 @@ CLI（`codebuddy`）侧签到接口（CLI 包内不存在签到 API）。
 
 ## 实现
 
-脚本：`scripts/workbuddy-checkin.ts`（Bun / Node 双兼容），配套调试工具 `scripts/workbuddy-cdp.ts`，
+脚本：`scripts/checkin/workbuddy-checkin.ts`（Bun / Node 双兼容），配套调试工具 `scripts/checkin/workbuddy-cdp.ts`，
 计划任务入口 `scripts/run-workbuddy-checkin.cmd`。
 
 流程：
@@ -73,11 +73,11 @@ CLI（`codebuddy`）侧签到接口（CLI 包内不存在签到 API）。
 
 ```powershell
 # 手动签到（在仓库根目录执行）
-bun run scripts/workbuddy-checkin.ts
-node scripts/workbuddy-checkin.ts   # 同样可跑
+bun run scripts/checkin/workbuddy-checkin.ts
+node scripts/checkin/workbuddy-checkin.ts   # 同样可跑
 
 # 只看状态 / 强制再调一次 / 打印原始返回
-bun run scripts/workbuddy-checkin.ts --status
+bun run scripts/checkin/workbuddy-checkin.ts --status
 $env:WB_CHECKIN_FORCE='1'; $env:WB_CHECKIN_DEBUG='1'
 ```
 

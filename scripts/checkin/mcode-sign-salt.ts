@@ -3,12 +3,12 @@
  * mcode 签名盐配置工具 —— 交互式获取 / 校验 / 写入 MCODE_SIGN_SALT。
  *
  * 用法：
- *   bun run scripts/mcode-sign-salt.ts            # 交互式（推荐）
- *   bun run scripts/mcode-sign-salt.ts show       # 只看当前解析结果（不打印盐内容）
- *   bun run scripts/mcode-sign-salt.ts extract    # 只从客户端提取，打印盐（明文）
- *   bun run scripts/mcode-sign-salt.ts set <salt> # 写入用户级环境变量 MCODE_SIGN_SALT
- *   bun run scripts/mcode-sign-salt.ts clear      # 清除用户级环境变量 MCODE_SIGN_SALT
- *   bun run scripts/mcode-sign-salt.ts check      # 自检：确认能解析到盐
+ *   bun run scripts/checkin/mcode-sign-salt.ts            # 交互式（推荐）
+ *   bun run scripts/checkin/mcode-sign-salt.ts show       # 只看当前解析结果（不打印盐内容）
+ *   bun run scripts/checkin/mcode-sign-salt.ts extract    # 只从客户端提取，打印盐（明文）
+ *   bun run scripts/checkin/mcode-sign-salt.ts set <salt> # 写入用户级环境变量 MCODE_SIGN_SALT
+ *   bun run scripts/checkin/mcode-sign-salt.ts clear      # 清除用户级环境变量 MCODE_SIGN_SALT
+ *   bun run scripts/checkin/mcode-sign-salt.ts check      # 自检：确认能解析到盐
  *
  * 背景：
  *   签到接口的 `x-signature` 头需要 mcode 客户端里的一个固定盐。
@@ -209,7 +209,7 @@ async function main(): Promise<void> {
     }
 
     default:
-      log('用法：bun run scripts/mcode-sign-salt.ts [interactive|show|extract|set <salt>|clear|check]');
+      log('用法：bun run scripts/checkin/mcode-sign-salt.ts [interactive|show|extract|set <salt>|clear|check]');
       process.exit(1);
   }
 }

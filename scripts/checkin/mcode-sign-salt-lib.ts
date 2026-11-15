@@ -7,7 +7,7 @@
  *
  *   1. 环境变量 `MCODE_SIGN_SALT`（显式指定，最高优先级）
  *   2. 从本机已安装的 mcode 客户端包中自动提取（saltFromClient）
- *   3. 都拿不到 → 抛出明确错误，并引导运行 scripts/mcode-sign-salt.ts
+ *   3. 都拿不到 → 抛出明确错误，并引导运行 scripts/checkin/mcode-sign-salt.ts
  *
  * 客户端里盐是以模板字符串字面量出现的，形如：
  *   "x-signature":IE(`${o}<SALT>`)
@@ -15,7 +15,7 @@
  * 去掉尾部的 `${...}` 插值与可能的额外后缀。
  *
  * 首次使用请执行交互式配置：
- *   bun run scripts/mcode-sign-salt.ts
+ *   bun run scripts/checkin/mcode-sign-salt.ts
  */
 
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
@@ -24,7 +24,7 @@ import path from 'node:path';
 
 /** 找不到盐时的统一提示。 */
 export const SALT_NOT_FOUND_MESSAGE =
-  '未找到 mcode 请求签名盐。请执行 `bun run scripts/mcode-sign-salt.ts` 进行配置' +
+  '未找到 mcode 请求签名盐。请执行 `bun run scripts/checkin/mcode-sign-salt.ts` 进行配置' +
   '（会尝试从本机 mcode 客户端提取，并可写入用户级环境变量 MCODE_SIGN_SALT）；' +
   '或手动设置环境变量 MCODE_SIGN_SALT。';
 

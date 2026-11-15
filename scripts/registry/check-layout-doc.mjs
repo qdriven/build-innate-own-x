@@ -2,9 +2,16 @@
 // 从 README 反解出 (local_path -> repo) 集合，与 apps.json 逐条对拍，
 // 防止文档与数据源各走各的。
 import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const readme = fs.readFileSync("registry/README.md", "utf8");
-const registry = JSON.parse(fs.readFileSync("registry/apps.json", "utf8"));
+const here = path.dirname(fileURLToPath(import.meta.url));
+// 仓根 = scripts/registry/ 的上两级。相对脚本自身定位，不依赖调用时的 CWD。
+const root = path.resolve(here, "..", "..");
+const readme = fs.readFileSync(path.join(root, "registry", "README.md"), "utf8");
+const registry = JSON.parse(
+  fs.readFileSync(path.join(root, "registry", "apps.json"), "utf8")
+);
 
 // --- 从 README 抽出布局树所在的代码块 ---
 const block = readme.match(/```\n<workspace>\/[\s\S]*?```/);

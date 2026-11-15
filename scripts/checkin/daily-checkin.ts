@@ -3,8 +3,8 @@
  * MiniMax Code (mcode) 每日自动签到 —— Bun / Node 双兼容脚本。
  *
  * 运行方式：
- *   bun run scripts/daily-checkin.ts
- *   node scripts/daily-checkin.ts            # Node 24+ 内置类型剥离，同样可跑
+ *   bun run scripts/checkin/daily-checkin.ts
+ *   node scripts/checkin/daily-checkin.ts            # Node 24+ 内置类型剥离，同样可跑
  *
  * 日常触发：Windows 计划任务「MiniMax Code Daily Checkin」（每天 09:00）。
  * 也可手动执行，或被 skill / 其它脚本调用。

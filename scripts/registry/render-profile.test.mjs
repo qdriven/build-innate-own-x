@@ -15,7 +15,8 @@ import {
 } from "./render-profile.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const realRegistryPath = path.resolve(here, "..", "registry", "apps.json");
+// 仓根 = scripts/registry/ 的上两级（测试文件与被测脚本同目录）。
+const realRegistryPath = path.resolve(here, "..", "..", "registry", "apps.json");
 
 const fixture = {
   collections: [

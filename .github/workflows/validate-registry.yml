@@ -27,20 +27,20 @@ jobs:
       # 字段校验：schema 必填字段、枚举值、repo 格式、url 合法性、name/repo 重复。
       # 不依赖本地工作区，任何环境都能跑。
       - name: 字段校验
-        run: node scripts/validate-registry.mjs --skip-paths
+        run: node scripts/registry/validate-registry.mjs --skip-paths
 
       # 远程校验：核对 repo 在 GitHub 上的真实状态——存在性、是否被改名、可见性、
       # 是否已归档、是否为 fork。local_path 校验在这里跳过（依赖本地 checkout 布局）。
       - name: GitHub 远程状态校验
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node scripts/validate-registry.mjs --skip-paths --check-remote
+        run: node scripts/registry/validate-registry.mjs --skip-paths --check-remote
 
       # 文档一致性：registry/README.md 里的「工作区布局」树必须与 apps.json 逐条对得上，
       # 否则说明文档已经和数据源脱节。
       - name: 工作区布局文档一致性校验
-        run: node scripts/check-layout-doc.mjs
+        run: node scripts/registry/check-layout-doc.mjs
 
       # 渲染器测试：profile 段落的生成规则不能悄悄改坏。
       - name: 渲染器测试
-        run: node --test scripts/render-profile.test.mjs
+        run: node --test scripts/registry/render-profile.test.mjs
